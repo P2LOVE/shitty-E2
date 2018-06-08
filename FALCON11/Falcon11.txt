@@ -1,0 +1,129 @@
+@name Falcon11 
+@inputs GPSX GPSY GPSZ Speed GPSXL GPSYL GPSZL GPSXR GPSYR GPSZR GPSZN GPSZX ResetL Time SR MinusComp PlusComp RedMode HofRed DesecRed MinusHof MinusDes PlusHof PlusDes
+@outputs ThrustZRC ThrustZLC ThrustZXC ThrustZNC Down DownSpeed GPSZOut Speed LandingTrue SpeedOut TimeSet TimeR Sound DOWNCOMP HofLand Desec
+@persist ThrustZR ThrustZL ThrustZX ThrustZN R SpeedC ThrustDownSpeed Down DownSpeed DDegree 
+@trigger
+#Project of autocorrection rocket GMOD maded in Dec 2017
+
+
+if(RedMode==1){ #Check editor mode
+ # DOWNCOMP - comp. of landing multiplyer
+if(DOWNCOMP < 0){} #GTFO Optimisation :D
+if(DOWNCOMP > 10){} # same xD
+if(DOWNCOMP > 1){
+if(MinusComp==1){DOWNCOMP-=0.1}  #Button minus
+if(DOWNCOMP < 9){
+if(PlusComp==1){DOWNCOMP+=0.1}
+}}}else{DOWNCOMP=3}
+
+if(HofRed==1){
+    
+if(HofLand < 500){} #GTFO Optimisation :D
+if(HofLand > 10000){} # same xD
+if(HofLand > 700){
+if(MinusHof==1){HofLand-=150}  #Button minus
+if(HofLand < 9000){
+if(PlusHof==1){HofLand+=150}
+
+}}}else{HofLand=1860}
+if(DesecRed==1){
+    
+    if(Desec < 0){} #GTFO Optimisation :D
+if(Desec > 1500){} # same xD
+if(Desec > 20){
+if(MinusDes==1){Desec-=10}  #Button minus
+if(Desec < 1400){
+if(PlusDes==1){Desec+=10}
+    
+}}}else{Desec=250}
+TimeR=0 # i don't remember what is it
+TimeSet=0 #too
+if(ResetL==1){ 
+ if(Time < 15){
+Sound=1}}
+if(SR==1){
+    TimeR=1
+Sound=0} #Sound ebable/disable 
+if(LandingTrue==1){
+        if(ResetL==1){
+            TimeSet=1
+if(Time > 10){
+LandingTrue=0
+DownSpeed=0
+Down=0
+TimeR=1 
+}  }} #Landing reset
+GPSZOut=round(GPSZ)
+round(Speed) 
+SpeedOut=round(Speed) 
+if(GPSZ > HofLand){
+Down=1}
+if(Down==1){
+    if(200 < GPSZ < HofLand-Desec){
+DownSpeed=1}}
+if(Down==1){
+if(DownSpeed==0){
+    ThrustZNC=0
+    ThrustZLC=0
+    ThrustZXC=0
+    ThrustZRC=0
+    R=0
+    R1=0 #Before start turn off engines
+}} if(DownSpeed==1){ #Downspeed = landing
+
+        ThrustZNC=(Speed/DOWNCOMP)*7
+    ThrustZLC=(Speed/DOWNCOMP)*7
+    ThrustZXC=(Speed/DOWNCOMP)*7
+    ThrustZRC=(Speed/DOWNCOMP)*7 #Landing thrust  
+if(DownSpeed==1 & GPSZ < 150){
+LandingTrue=1}
+if(LandingTrue==1){
+        ThrustZNC=0
+    ThrustZLC=0
+    ThrustZXC=0
+    ThrustZRC=0
+    ThrustDownSpeed=0
+    R=0
+    Sound=0 #After landing turn off engines
+R1=0}
+}else{
+R1=R+5
+ThrustZR=2*R1
+ThrustZL=2*R1
+ThrustZN=2*R1
+ThrustZX=2*R1
+if(Speed > 4){
+SpeedC=Speed-4
+} else { SpeedC=0 }
+if(SpeedC==0){
+R=80}else{
+if(SpeedC < 10){
+    if(SpeedC < 8){
+R=100}else{
+R=SpeedC*9}}} #i dont remember again
+
+
+
+#R - L Thrust
+if(GPSZR-GPSZL > 0.1){
+if(GPSZR > GPSZL){
+ThrustZRC=ThrustZR-15
+ThrustZLC=ThrustZL+30}
+if(GPSZL > GPSZR){
+ThrustZLC=ThrustZL-15
+ThrustZRC=ThrustZR+30}
+}else{
+ThrustZRC=ThrustZLC=ThrustZL
+}
+#N - X Thrust L=X R=N
+if(GPSZN-GPSZX > 0.1){
+if(GPSZN > GPSZX){
+ThrustZNC=ThrustZN-10
+ThrustZXC=ThrustZX+30}
+if(GPSZX > GPSZN){
+ThrustZXC=ThrustZX-10 
+ThrustZNC=ThrustZN+30}
+}else{
+ThrustZNC=ThrustZXC=ThrustZX 
+} # ^ System of autocorrection for direction 
+}
