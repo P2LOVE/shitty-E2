@@ -1,1 +1,1 @@
-# shitty-E2
+# there's some shitty expression2 gmod projects, enjoy
