@@ -1,0 +1,18 @@
+@name 2Way Key
+@inputs X Y Z  HashGate Button
+@outputs Channel HashKey ValidTrueKey 
+@persist 
+@trigger 
+
+if(Button==1){
+while(HashGate < 1){
+CORRECT=random(0,5)
+}}
+Channel=round(X)+round(CORRECT)
+HashKey=round(max(round(Y),round(Z))/min(round(Y),round(Z)))
+
+BKD=max(HashKey, HashGate)-min(HashKey, HashGate)
+if(BKD < 10){
+ValidTrueKey=1}
+
+
