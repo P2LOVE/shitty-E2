@@ -1,0 +1,72 @@
+@name RaceLogic1
+@inputs SpeedRaw X Y Z Time Ready Reset 
+@outputs TimeGo TimerReset QuotTime IOOTime ZOOTime  Speed TimeO SpeedQ Diff 
+@persist Speed StartZ StartX StartY StartCoord CurrCoord TimeStart TimeStop QuoutTrue  ZOODone IOODone  MassReset 
+@trigger 
+ # modding history
+ # 14.06.2018 v. 1.0.0
+
+
+
+TimeO=round(Time)  
+if(Ready == 0 & Reset == 1){
+MassReset=1}else {MassReset=0}
+Speed=round(SpeedRaw)
+if(MassReset == 1){
+    IOODone=0
+    TimeStart=0
+    TimeGo=0
+    TimeStop=0
+    StartX=0
+    StartY=0
+    StartZ=0
+    IOOTime=0
+    SpeedQ=0
+    ZOOTime=0
+    TimerReset=1
+    QuotTime=0
+QuoutTrue=0}else{TimerReset=0
+if(Speed > 1 & Ready == 1){
+
+TimeStart=1
+}
+
+if(Ready == 1 & Speed == 0 & TimeStart == 0){
+    StartX=X
+    StartY=Y
+    StartZ=Z
+    } #Write start coords in memory
+    
+    if(TimeStart == 1){ #Timer control start 
+    TimeGo=1}
+if(TimeStop == 1){
+TimeGo=0} # Timer control end 
+
+
+while(Speed > 100 & TimeGo == 1 & IOODone == 0){
+    IOOTime=Time
+    IOODone=1
+} #Write 100KmH Time
+while(Speed > 200 & TimeGo == 1 & ZOODone == 0){
+ZOOTime=Time
+ZOODone=1}
+
+StartCoord=round(abs(StartZ)+abs(StartX)+abs(StartY))
+if(StartCoord > 0){
+CurrCoord=round(abs(X)+abs(Y)+abs(Z))
+}else{CurrCoord=0} #While StartCoord not writed, don't write Current coords
+Diff=abs(max(StartCoord, CurrCoord) - min(StartCoord, CurrCoord)) #GTFO OPTIMISATION x3
+
+#quarter = 8448
+while(Diff > 8430 & QuoutTrue == 0){  
+QuoutTrue=1
+QuotTime=Time
+SpeedQ=Speed}
+
+if(QuoutTrue == 1 & IOODone == 1  & ZOODone == 1){
+TimeStop=1
+
+}} #If quoter done and 200 kmh meter done, stop timer
+
+
+

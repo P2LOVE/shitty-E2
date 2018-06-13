@@ -1,0 +1,23 @@
+@name RaceLogic2
+@inputs IOOTime ZOOTime QuotTime SpeedQ 
+@outputs Screen:string 
+@persist O_IOO:string O_200:string IOO_200:string Quat:string AVG:string
+@trigger 
+
+if(IOOTime > 0 & QuotTime == 0){
+SpeedRQ=(0+100+SpeedQ)/3
+if(IOOTime > 0 & ZOOTime > 0 & QuotTime == 0){
+SpeedRQ=(0+100+200+SpeedQ)/4}}else{SpeedRQ=(0+SpeedQ)/2}
+if(ZOOTime > 0){
+IOTime=ZOOTime-IOOTime
+}else{ IOTIme=0}
+O_IOO="   0Km/H - 100Km/H   "+round(IOOTime, 3)+"s"
+IOO_200="\n   100Km/H - 200Km/H   "+round(IOTime, 3)+"s"
+O_200="\n   0Km/H - 200Km/H   "+round(ZOOTime, 3)+"s"
+Quat="\n   Quarter (0.25 mile)   "+round(QuotTime, 3)+"s" 
+AVG="\n \n \n \n \n \n \n \n \n \n \n  ~~AVG Quarter Speed "+round(SpeedRQ, 3)+" Km/H"
+Screen=O_IOO+IOO_200+O_200+Quat+AVG
+
+
+
+
