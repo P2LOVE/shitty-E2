@@ -1,4 +1,5 @@
 working "RaceLogic" in GMod
+
 weld block with GPS and Speedometer on prop which needs to be measured
 
 note: don't cross any of worlds centre line (coords 0) or quarter meter will not work correctly
