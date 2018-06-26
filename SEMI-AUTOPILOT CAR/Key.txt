@@ -1,0 +1,19 @@
+@name Key 
+@inputs A B C D But EngEx
+@outputs Lock Eng Zal
+@persist 
+@trigger
+ 
+
+Zal=A*B*C/D
+if(round(Zal) == 543600524){
+Lock=0
+if(But == 1){
+Eng=EngEx}
+}
+else{Lock=1
+    Eng=0
+    }
+
+
+

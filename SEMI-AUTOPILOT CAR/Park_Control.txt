@@ -1,0 +1,60 @@
+@name  ParkControl
+@inputs BackIn FrontR FrontL Left Right Speed Shift But WW SS
+@outputs Brake BackO FrontRO FrontLO LeftO RightO SpeedR BrakeReady BrakeStart W ABR
+@persist 
+@trigger 
+
+SpeedR=round(Speed)
+W=max(WW, SS)
+if(BackIn > 0){
+BackO=BackIn/1.5
+}else{BackO=500}
+
+if(FrontR > 0){
+FrontRO=FrontR/1.5
+}else{FrontRO=500}
+
+if(FrontL > 0){
+FrontLO=FrontL/1.5
+}else{FrontLO=500}
+
+if(Left > 0){
+LeftO=Left/1.5
+}else{LeftO=500}
+
+if(Right > 0){
+RightO=Right/1.5
+}else{RightO=500}
+
+
+if(BrakeStart == 1){
+FrontRO=1
+FrontLO=1
+RightO=1
+LeftO=1 
+BackO=1
+}
+
+if(But == 1){
+    ABR=1
+if(W == 0){
+BrakeReady=min(FrontRO, BackO)
+if(Speed > 5 & Speed < 21){
+if(BrakeReady < 31){
+BrakeStart=1
+}}
+if(Speed > 22){
+if(BrakeReady < 290 & BrakeReady > 80){
+BrakeStart=1
+}}}
+
+if(W > 0){
+BrakeStart=0}
+
+if(Shift == 1){
+BrakeStart=0}
+if(Shift == 0){
+if(BrakeStart == 1){
+Brake=100}else{Brake=0}
+}}else{ Brake=0
+ABR=0}

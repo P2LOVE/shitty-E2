@@ -1,0 +1,43 @@
+@name  ScreenControl
+@inputs  ABR SpeedR Lock Eng Brake Z1 Y1 X1
+@outputs  SpeedOR Screen:string Color:vector
+@persist TurnLock:string TurnEng:string AntiImpact:string Stats:string ABRS:string Z:string X:string Y:string Red:vector Def:vector
+@trigger 
+
+## RED COLOR
+R = 244
+G = 255
+B = 0
+
+R1 = 163
+G1 = 250
+B1 = 255
+
+
+Z="Height: "+round(Z1)
+X="  X: "+round(X1)
+Y="  Y: "+round(Y1)
+Red=vec(R, G, B)
+Def=vec(R1, G1, B1)
+
+if(Lock == 0){
+SpeedOR=SpeedR}else{SpeedOR=0}
+
+if(Lock == 1){
+Screen=TurnLock}
+
+if(Lock == 0 & Eng == 0 & Brake == 0){
+Screen=TurnEng}
+
+if(Lock == 0 & Eng == 1 & Brake == 0){
+Screen=Stats}
+
+if(Lock == 0 & Eng == 0 & Brake == 100){
+Color=Red
+Screen=AntiImpact}
+else{Color=Def}
+if(ABR == 1){ABRS="  Enabled"}else{ABRS="  Disabled"}
+TurnLock="\n \n \n \n \n \n                     CAR LOCKED. \n                      INSERT KEY"
+TurnEng="\n \n \n \n \n \n             ENGINE TURNED OFF. \n       TURN KEY AND SIT INTO CAR"
+AntiImpact="\n \n \n                IMPACT WARNING! \n              AUTO BRAKE SYSTEM. \n \n\n\n\n       THROTTLE TO RELEASE CAR\n             AND START ENGINGE \n \n\n       OR CLICK & HOLD LMB KEY"
+Stats="\n\n GPS: "+Z+Y+X+"\n\n\n\n\n\n\n\n\n\n AUTO-BRAKE SYSTEM:"+ABRS

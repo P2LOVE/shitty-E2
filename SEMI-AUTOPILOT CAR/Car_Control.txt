@@ -1,0 +1,26 @@
+@name Car Control
+@inputs Brake Sit WIn Space S
+@outputs HandBrake Thr Eng Summ
+@persist 
+@trigger 
+
+Eng=Sit
+HandBrake=Space
+Summ=WIn+S
+
+if(Summ == 0){
+Thr=0}else{
+if(WIn == 1){
+Thr=1}
+if(S == 1){
+Thr=-1}
+}
+
+
+
+HandBrake=Brake
+if(Brake > 1){
+Thr=0
+Eng=0
+}
+
