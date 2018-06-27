@@ -7,3 +7,10 @@
 1.01
 -Crashed AutoBrake
 +Add DAC/UAC (working kinda)
+
+1.02
++Fix AutoBrake
+
+1.1
++AutoHold system
++Code optimisation
