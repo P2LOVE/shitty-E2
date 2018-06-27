@@ -1,7 +1,7 @@
 @name  ScreenControl
-@inputs  ABR SpeedR Lock Eng Brake Z1 Y1 X1
+@inputs  ABR SpeedR Lock Eng Brake Z1 Y1 X1 DAC1 UAC Daaac
 @outputs  SpeedOR Screen:string Color:vector
-@persist TurnLock:string TurnEng:string AntiImpact:string Stats:string ABRS:string Z:string X:string Y:string Red:vector Def:vector
+@persist TurnLock:string TurnEng:string AntiImpact:string Stats:string ABRS:string Z:string X:string Y:string Red:vector Def:vector DAC:string DACEN:string UACEN:string
 @trigger 
 
 ## RED COLOR
@@ -13,6 +13,8 @@ R1 = 163
 G1 = 250
 B1 = 255
 
+if(DAC1==1){
+DAC="Enabled"}else{DAC="Disabled"}
 
 Z="Height: "+round(Z1)
 X="  X: "+round(X1)
@@ -36,8 +38,18 @@ if(Lock == 0 & Eng == 0 & Brake == 100){
 Color=Red
 Screen=AntiImpact}
 else{Color=Def}
+
+if(Eng == 1 & Brake == 0 & UAC > 0){
+Screen=UACEN}
+
+if(Eng == 1 & Brake == 0 & Daaac > 0){
+Screen=DACEN}
+
+
 if(ABR == 1){ABRS="  Enabled"}else{ABRS="  Disabled"}
+UACEN="\n\n\n\n\n\n        Uphill Assist Control: Working. \n                 Auto-Brake Disabled."
+DACEN="\n\n\n\n\n\n      Downhill Assist Control: Working.  \n                 Auto-Brake Disabled."
 TurnLock="\n \n \n \n \n \n                     CAR LOCKED. \n                      INSERT KEY"
 TurnEng="\n \n \n \n \n \n             ENGINE TURNED OFF. \n       TURN KEY AND SIT INTO CAR"
 AntiImpact="\n \n \n                IMPACT WARNING! \n              AUTO BRAKE SYSTEM. \n \n\n\n\n       THROTTLE TO RELEASE CAR\n             AND START ENGINGE \n \n\n       OR CLICK & HOLD LMB KEY"
-Stats="\n\n GPS: "+Z+Y+X+"\n\n\n\n\n\n\n\n\n\n AUTO-BRAKE SYSTEM:"+ABRS
+Stats="\n\n GPS: "+Z+Y+X+"\n\n\n\n Hill Assist Control:"+DAC+"\n\n\n\n\n Auto-Brake System:"+ABRS

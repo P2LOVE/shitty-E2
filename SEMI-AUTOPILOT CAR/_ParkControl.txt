@@ -1,8 +1,29 @@
 @name  ParkControl
-@inputs BackIn FrontR FrontL Left Right Speed Shift But WW SS
-@outputs Brake BackO FrontRO FrontLO LeftO RightO SpeedR BrakeReady BrakeStart W ABR
+@inputs BackIn FrontR FrontL Left Right Speed Shift But WW SS ZF ZB DacEn
+@outputs Brake BackO FrontRO FrontLO LeftO RightO SpeedR BrakeReady BrakeStart W ABR DAC DacUp DacDw
 @persist 
 @trigger 
+if(DacUp == 1 | DacDw == 1){Shift=1}
+DacUp=0
+DacDw=0
+
+ZFR=round(abs(ZF))
+ZBR=round(abs(ZB))
+AAABF=ZBR - ZFR
+AAAFB=ZFR - ZBR
+DiffZ=max(ZFR, ZBR) - min(ZFR, ZBR)
+if(DacEn==1){
+DAC=1
+if(DiffZ > 15){
+    
+if(AAAFB > 15){  
+DacUp=1}
+    if(AAABF > 15){
+DacDw=1}
+    
+}}else{DAC=0
+}
+
 
 SpeedR=round(Speed)
 W=max(WW, SS)
@@ -35,12 +56,16 @@ LeftO=1
 BackO=1
 }
 
-if(But == 1){
-    ABR=1
+
+
+    if(But == 1){
+ABR=1}else{ABR=0}
+if(ABR == 1){
 if(W == 0){
-BrakeReady=min(FrontRO, BackO)
+BrakeReady=min(FrontRO, BackO, FrontLO)
 if(Speed > 5 & Speed < 21){
-if(BrakeReady < 31){
+}else{
+if(BrakeReady < 41){
 BrakeStart=1
 }}
 if(Speed > 22){
@@ -58,3 +83,4 @@ if(BrakeStart == 1){
 Brake=100}else{Brake=0}
 }}else{ Brake=0
 ABR=0}
+
