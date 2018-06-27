@@ -1,8 +1,10 @@
 @name  ParkControl
-@inputs BackIn FrontR FrontL Left Right Speed Shift But WW SS ZF ZB DacEn Hold
+@inputs BackIn FrontR FrontL Left Right Speed Shift But WW SS ZF ZB DacEn Hold Sit
 @outputs Brake BackO FrontRO FrontLO LeftO RightO SpeedR BrakeReady BrakeStart W ABR DAC DacUp DacDw AHold Error EBrake ABRDAC
 @persist 
 @trigger 
+if(Sit == 0){
+SpeedR=0}else{SpeedR=round(Speed)}
 if(DacUp == 1 | DacDw == 1){Shift=1}
 DacUp=0
 DacDw=0
@@ -25,7 +27,7 @@ DacUp=1}
  
 DacDw=1}
  
-if(AHold == 1){
+if(AHold == 1 & SpeedR < 3){
   if(AAABF > 15){
  
 EBrake=AHold
@@ -43,7 +45,7 @@ if(DAC == 1 & ABR == 1){
 AHold=Hold}else{AHold=0}
 
 
-SpeedR=round(Speed)
+
 W=max(WW, SS)
 if(BackIn > 0){
 BackO=BackIn/1.5
