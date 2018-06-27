@@ -4,7 +4,7 @@
 @persist 
 @trigger
  
-
+#
 Zal=A*B*C/D
 if(round(Zal) == 543600524){
 Lock=0
