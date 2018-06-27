@@ -58,20 +58,18 @@ BackO=1
 
 
 
-    if(But == 1){
-ABR=1}else{ABR=0}
+ABR=But
 if(ABR == 1){
 if(W == 0){
 BrakeReady=min(FrontRO, BackO, FrontLO)
 if(Speed > 5 & Speed < 21){
-}else{
 if(BrakeReady < 41){
 BrakeStart=1
 }}
 if(Speed > 22){
 if(BrakeReady < 290 & BrakeReady > 80){
 BrakeStart=1
-}}}
+}}}}
 
 if(W > 0){
 BrakeStart=0}
